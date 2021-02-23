@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import SpecialistDataService from '../services/specialist.service';
+import CustomerDataService from '../../services/customer.service';
 import { Link } from "react-router-dom";
 
-export default class AddSpecialist extends Component {
+export default class AddCustomer extends Component {
   constructor(props) {
     super(props);
 
@@ -10,11 +10,9 @@ export default class AddSpecialist extends Component {
     this.onChangeLastName = this.onChangeLastName.bind(this);
     this.onChangePhone = this.onChangePhone.bind(this);
     this.onChangeCountry = this.onChangeCountry.bind(this);
-    this.onChangeOccupation = this.onChangeOccupation.bind(this);
-    this.onChangeTitle = this.onChangeTitle.bind(this);
 
-    this.saveSpecialist = this.saveSpecialist.bind(this);
-    this.newSpecialist = this.newSpecialist.bind(this);
+    this.saveCustomer = this.saveCustomer.bind(this);
+    this.newCustomer = this.newCustomer.bind(this);
 
     this.state = {
       id: null,
@@ -22,8 +20,6 @@ export default class AddSpecialist extends Component {
       lastName: '',
       phone: '',
       country: '',
-      occupation: '',
-      title: '',
 
       submitted: false
     };
@@ -53,29 +49,15 @@ export default class AddSpecialist extends Component {
     });
   }
 
-  onChangeOccupation(e) {
-    this.setState({
-      occupation: e.target.value
-    });
-  }
-
-  onChangeTitle(e) {
-    this.setState({
-      title: e.target.value
-    });
-  }
-
-  saveSpecialist() {
+  saveCustomer() {
     const data = {
       firstName: this.state.firstName,
       lastName: this.state.lastName,
       phone: this.state.phone,
-      country: this.state.country,
-      occupation: this.state.occupation,
-      title: this.state.title
+      country: this.state.country
     };
 
-    SpecialistDataService.create(data)
+    CustomerDataService.create(data)
       .then(response => {
         this.setState({
           id: response.data.id,
@@ -83,8 +65,6 @@ export default class AddSpecialist extends Component {
           lastName: response.data.lastName,
           phone: response.data.phone,
           country: response.data.country,
-          occupation: response.data.occupation,
-          title: response.data.title,
 
           submitted: true
         });
@@ -93,15 +73,13 @@ export default class AddSpecialist extends Component {
       .catch(err => console.error(err));
   }
 
-  newSpecialist() {
+  newCustomer() {
     this.setState({
       id: null,
       firstName: '',
       lastName: '',
       phone: '',
       country: '',
-      occupation: '',
-      title: '',
 
       submitted: false
     });
@@ -114,7 +92,7 @@ export default class AddSpecialist extends Component {
           this.state.submitted ? (
             <div>
               <h4>You submitted successfully</h4>
-              <button className="btn btn-success" onClick={this.newSpecialist}>
+              <button className="btn btn-success" onClick={this.newCustomer}>
                 Add
               </button>
             </div>
@@ -143,17 +121,6 @@ export default class AddSpecialist extends Component {
                   name="last-name"
                 />
 
-                <label htmlFor="title">Phone</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="phone"
-                  required
-                  value={this.state.phone}
-                  onChange={this.onChangePhone}
-                  name="phone"
-                />
-
                 <label htmlFor="title">Country</label>
                 <select className="form-control"
                   id="country"
@@ -167,36 +134,27 @@ export default class AddSpecialist extends Component {
                   <option value="MEX">Mexico</option>
                 </select>
 
-                <label htmlFor="title">Occupation</label>
+                <label htmlFor="title">Phone (10 digits)</label>
                 <input
                   type="text"
                   className="form-control"
-                  id="occupation"
+                  id="phone"
                   required
-                  value={this.state.occupation}
-                  onChange={this.onChangeOccupation}
-                  name="occupation"
-                />
-
-                <label htmlFor="title">Title</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="title"
-                  value={this.state.title}
-                  onChange={this.onChangeTitle}
-                  name="title"
+                  value={this.state.phone}
+                  onChange={this.onChangePhone}
+                  name="phone"
+                  maxLength="10"
                 />
               </div>
 
               <button
-                onClick={this.saveSpecialist}
+                onClick={this.saveCustomer}
                 className="btn btn-success mr-4"
               >
                 Submit
               </button>
 
-                <Link to="/specialists" className="btn btn-light">
+                <Link to="/customers" className="btn btn-light">
                   Go Back
                 </Link>
             </div>

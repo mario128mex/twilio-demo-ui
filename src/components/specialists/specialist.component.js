@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import SpecialistDataService from "../services/specialist.service";
+import SpecialistDataService from "../../services/specialist.service";
 
 export default class Specialist extends Component {
   constructor(props) {
@@ -118,7 +118,7 @@ export default class Specialist extends Component {
       <div>
         {currentSpecialist ? (
           <div className="edit-form">
-            <h4>First Name</h4>
+            <h4>{currentSpecialist.fullName}</h4>
             <form>
               <div className="form-group">
                 <label htmlFor="title">First Name</label>
@@ -145,18 +145,6 @@ export default class Specialist extends Component {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="title">Phone</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="phone"
-                  required
-                  value={currentSpecialist.phone}
-                  onChange={this.onChangePhone}
-                  name="phone"
-                />
-              </div>
-              <div className="form-group">
                 <label htmlFor="title">Country</label>
                 <select className="form-control"
                   id="country"
@@ -176,6 +164,19 @@ export default class Specialist extends Component {
                     Mexico
                   </option>
                 </select>
+              </div>
+              <div className="form-group">
+                <label htmlFor="title">Phone (10 digits)</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="phone"
+                  required
+                  value={currentSpecialist.phone}
+                  onChange={this.onChangePhone}
+                  name="phone"
+                  maxLength="10"
+                />
               </div>
               <div className="form-group">
                 <label htmlFor="title">Occupation</label>

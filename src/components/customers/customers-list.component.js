@@ -1,27 +1,27 @@
 import React, { Component } from "react";
-import SpecialistDataService from "../services/specialist.service";
+import CustomerDataService from "../../services/customer.service";
 import { Link } from "react-router-dom";
 
-export default class SpecialistList extends Component {
+export default class CustomerList extends Component {
   constructor(props) {
     super(props);
     this.onChangeSearchName = this.onChangeSearchName.bind(this);
-    this.retrieveSpecialists = this.retrieveSpecialists.bind(this);
+    this.retrieveCustomers = this.retrieveCustomers.bind(this);
     this.refreshList = this.refreshList.bind(this);
-    this.setActiveSpecialist = this.setActiveSpecialist.bind(this);
-    this.deleteSpecialist = this.deleteSpecialist.bind(this);
+    this.setActiveCustomer = this.setActiveCustomer.bind(this);
+    this.deleteCustomer = this.deleteCustomer.bind(this);
     this.searchName = this.searchName.bind(this);
 
     this.state = {
-      specialists: [],
-      currentSpecialist: null,
+      customers: [],
+      currentCustomer: null,
       currentIndex: -1,
       searchName: ""
     };
   }
 
   componentDidMount() {
-    this.retrieveSpecialists();
+    this.retrieveCustomers();
   }
 
   onChangeSearchName(e) {
@@ -30,12 +30,12 @@ export default class SpecialistList extends Component {
     this.setState({ searchName });
   }
 
-  retrieveSpecialists() {
-    SpecialistDataService.getAll()
+  retrieveCustomers() {
+    CustomerDataService.getAll()
       .then(response => {
         console.log(response);
         this.setState({
-          specialists: response.data
+          customers: response.data
         });
         console.log(response.data);
       })
@@ -43,22 +43,22 @@ export default class SpecialistList extends Component {
   }
 
   refreshList() {
-    this.retrieveSpecialists();
+    this.retrieveCustomers();
     this.setState({
-      currentSpecialist: null,
+      currentCustomer: null,
       currentIndex: -1
     });
   }
 
-  setActiveSpecialist(specialist, index) {
+  setActiveCustomer(customer, index) {
     this.setState({
-      currentSpecialist: specialist,
+      currentCustomer: customer,
       currentIndex: index
     });
   }
 
-  deleteSpecialist(id) {
-    SpecialistDataService.delete(id)
+  deleteCustomer(id) {
+    CustomerDataService.delete(id)
       .then(response => {
         console.log(response.data);
         this.refreshList();
@@ -68,14 +68,14 @@ export default class SpecialistList extends Component {
 
   searchName() {
     if (!this.state.searchName) {
-      this.retrieveSpecialists();
+      this.retrieveCustomers();
       return;
     }
 
-    SpecialistDataService.findByName(this.state.searchName)
+    CustomerDataService.findByName(this.state.searchName)
       .then(response => {
         this.setState({
-          specialists: response.data
+          customers: response.data
         });
         console.log(response.data);
       })
@@ -83,7 +83,7 @@ export default class SpecialistList extends Component {
   }
 
   render() {
-    const { searchName, specialists, currentSpecialist, currentIndex } = this.state;
+    const { searchName, customers, currentCustomer, currentIndex } = this.state;
 
     return (
       <div className="list row">
@@ -109,77 +109,61 @@ export default class SpecialistList extends Component {
         </div>
 
         <div className="col-md-6">
-          <h4>Specialists List</h4>
+          <h4>Customers List</h4>
 
           <ul className="list-group">
-            {specialists  && specialists.map((specialist, index) => {
+            {customers  && customers.map((customer, index) => {
               return <li
                 className={
                   `list-group-item ${index === currentIndex ? 'active' : ''}`
                 }
-                onClick={() => this.setActiveSpecialist(specialist, index)}
+                onClick={() => this.setActiveCustomer(customer, index)}
                 key={index}
               >
-                {specialist.fullName}
+                {customer.fullName}
               </li>
             })}
           </ul>
 
           <Link
             className="m-3 btn btn-success"
-            to="/add-specialist"
+            to="/add-customer"
           >
             Create
           </Link>
         </div>
 
         <div className="col-md-6">
-          {currentSpecialist ? (
+          {currentCustomer ? (
             <div>
-              <h4>Specialist</h4>
+              <h4>Customer</h4>
               <div>
                 <label>
                   <strong>First Name:</strong>
                 </label>{" "}
-                {currentSpecialist.firstName}
+                {currentCustomer.firstName}
               </div>
               <div>
                 <label>
                   <strong>Last Name:</strong>
                 </label>{" "}
-                {currentSpecialist.lastName}
+                {currentCustomer.lastName}
               </div>
               <div>
                 <label>
                   <strong>Phone:</strong>
                 </label>{" "}
-                {currentSpecialist.phone}
+                {currentCustomer.phone}
               </div>
               <div>
                 <label>
                   <strong>Country:</strong>
                 </label>{" "}
-                {currentSpecialist.country}
+                {currentCustomer.country}
               </div>
-              <div>
-                <label>
-                  <strong>Occupation:</strong>
-                </label>{" "}
-                {currentSpecialist.occupation}
-              </div>
-              {
-                !currentSpecialist.title ?
-                  null :
-                  <div>
-                    <label>
-                      <strong>Title:</strong>
-                    </label>{" "}
-                    {currentSpecialist.title}
-                  </div>
-              }
 
               <Link
-                to={"/specialists/" + currentSpecialist.id}
+                to={"/customers/" + currentCustomer.id}
                 className="badge badge-warning mr-3"
               >
                 Edit
@@ -187,7 +171,7 @@ export default class SpecialistList extends Component {
 
               <button
                 className="btn badge badge-danger"
-                onClick={() => this.deleteSpecialist(currentSpecialist.id)}
+                onClick={() => this.deleteCustomer(currentCustomer.id)}
               >
                 Delete
               </button>
@@ -195,7 +179,7 @@ export default class SpecialistList extends Component {
           ) : (
               <div>
                 <br />
-                <p>Please click on a Specialist...</p>
+                <p>Please click on a Customer...</p>
               </div>
             )}
         </div>
