@@ -10,6 +10,9 @@ import AddCustomer from "./components/customers/add-customer.component"
 import CustomersList from "./components/customers/customers-list.component";
 import Customer from "./components/customers/customer.component"
 
+import AddAppointment from "./components/appointments/add-appointment.component"
+import AppointmentsList from "./components/appointments/appointments-list.component";
+
 class App extends Component {
   render() {
     return(
@@ -31,6 +34,12 @@ class App extends Component {
                 Customers
               </Link>
             </li>
+
+            <li className="nav-item">
+              <Link to={"/appointments"} className="nav-link">
+                Appointments
+              </Link>
+            </li>
           </div>
         </nav>
 
@@ -43,6 +52,9 @@ class App extends Component {
             <Route exact path={["/", "/customers"]} component={CustomersList} />
             <Route exact path="/add-customer" component={AddCustomer} />
             <Route exact path="/customers/:id" component={Customer} />
+
+            <Route exact path={["/", "/appointments"]} component={AppointmentsList} />
+            <Route exact path="/add-appointment" component={AddAppointment} />
           </Switch>
         </div>
       </div>

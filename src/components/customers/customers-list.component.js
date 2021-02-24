@@ -33,7 +33,6 @@ export default class CustomerList extends Component {
   retrieveCustomers() {
     CustomerDataService.getAll()
       .then(response => {
-        console.log(response);
         this.setState({
           customers: response.data
         });

@@ -33,7 +33,6 @@ export default class SpecialistList extends Component {
   retrieveSpecialists() {
     SpecialistDataService.getAll()
       .then(response => {
-        console.log(response);
         this.setState({
           specialists: response.data
         });
